@@ -1,48 +1,32 @@
-import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsBoolean,
-  IsEmail,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { GoodsEntity } from "../../../database/goods.entity";
 
-export class UserCreateProfileDto {
-  @Transform(({ value }) => value.trim())
+export class GoodsDtoCreate {
   @IsString()
-  userName: string;
-
-  @Transform(({ value }) => value.trim().toLowerCase())
-  @IsString()
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
-
-  @Transform(({ value }) => value.trim())
-  @IsString()
-  @IsNotEmpty()
-  password: string;
-
   @IsOptional()
+  name: string;
+
   @IsString()
-  city: string;
+  @IsNotEmpty()
+  description: string;
 
   @IsNumber()
-  @IsOptional()
-  age: number;
-
-  @IsBoolean()
-  @IsOptional()
-  confirmedRegistration: boolean;
+  price: number;
 
   @IsString()
   @IsOptional()
-  avatar: string;
+  image: string;
 
-  @IsString()
   @IsOptional()
-  last_Visited: string;
+  bought_by: string;
 }
 
+export class GoodsCreateResponse extends GoodsDtoCreate {
+  @IsString()
+  @IsOptional()
+  createdAt: Date;
+  @IsString()
+  @IsOptional()
+  updatedAt: Date;
+  id: string;
+}

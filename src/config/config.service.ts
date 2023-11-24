@@ -1,38 +1,37 @@
-import { Injectable } from '@nestjs/common';
-import { GoodsCreateDto } from './dto/goods.dto';
+import { Inject, Injectable } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
+
+import configuration from './configuration';
 
 @Injectable()
-export class CommonService {
-  private goods: GoodsCreateDto[] = [
-    {
-      name: 'Butter',
-      description: 'goods milk',
-      price: 20,
-      image:
-        'https://users-buy-market.s3.amazonaws.com/goods/6532a8a129723c213c0766f7/35e461c1-7e9c-401a-9357-292f974eb184.jpg',
-    },
-    {
-      name: 'Milk',
-      description: 'goods milk',
-      price: 40,
-      image:
-        'https://users-buy-market.s3.amazonaws.com/goods/6532a8ac29723c213c076700/6deaf44b-94fa-4c9a-a1aa-b2b3a7d9d5e9.jpg',
-    },
-  ];
-  constructor() {}
+export class CustomConfigService {
+  constructor(
+    @Inject(configuration.KEY)
+    private readonly configs: ConfigType<typeof configuration>,
+  ) {}
 
-  async removeTodo(id: string) {
-    console.log(id);
-    return this.goods.filter((el) => el.name !== id);
+  get db_host(): string {
+    return this.configs.db_host;
   }
-  async getGoodsList() {
-    return this.goods;
+  get db_port(): number {
+    return this.configs.db_port;
   }
-
-  async createGood(goodsData: GoodsCreateDto) {
-    if (goodsData) {
-      this.goods.push(goodsData);
-    }
-    return this.goods;
+  get db_username(): string {
+    return this.configs.db_username;
+  }
+  get db_password(): string {
+    return this.configs.db_password;
+  }
+  get db_database(): string {
+    return this.configs.db_database;
+  }
+  get db_secret_world(): string {
+    return this.configs.db_word_secret;
+  }
+  get db_secret_access(): string {
+    return this.configs.db_access_secret;
+  }
+  get db_secret_refresh(): string {
+    return this.configs.db_refresh_secret;
   }
 }

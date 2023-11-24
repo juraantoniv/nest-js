@@ -1,9 +1,15 @@
 import { Module } from '@nestjs/common';
-import { CommonController } from './common.controller';
-import { CommonService } from './common.service';
-
+import { CustomConfigService } from './config.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import configuration from './configuration';
 @Module({
-  controllers: [CommonController],
-  providers: [CommonService],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: ['environments/.env'],
+      load: [configuration],
+    }),
+  ],
+  providers: [CustomConfigService, ConfigService],
+  exports: [CustomConfigService, ConfigService],
 })
-export class CommonModule {}
+export class CustomConfigModule {}

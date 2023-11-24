@@ -1,4 +1,4 @@
-export enum UserListOrderFieldEnum {
+export enum GoodsListOrderFieldEnum {
   createdAt = 'createdAt',
-  age = 'age',
+  price = 'price',
 }

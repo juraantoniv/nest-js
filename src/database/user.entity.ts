@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { CreatedUpdatedModel } from './common/created-updated.model';
 import { ApiProperty } from '@nestjs/swagger';
+import { GoodsEntity } from './goods.entity';
 
 @Entity('user')
 export class UserEntity extends CreatedUpdatedModel {
@@ -22,15 +23,15 @@ export class UserEntity extends CreatedUpdatedModel {
   password: string;
 
   @ApiProperty()
-  @Column({ type: 'text', nullable: false })
+  @Column({ type: 'text', nullable: true })
   city: string;
 
   @ApiProperty()
-  @Column({ type: 'int', nullable: false })
+  @Column({ type: 'int', nullable: true })
   age: number;
 
   @ApiProperty()
-  @Column({ type: 'boolean', nullable: false })
+  @Column({ type: 'boolean', nullable: true })
   confirmedRegistration: boolean;
 
   @ApiProperty()
@@ -40,4 +41,7 @@ export class UserEntity extends CreatedUpdatedModel {
   @ApiProperty()
   @Column({ type: 'text', nullable: true })
   last_Visited: string;
+
+  @OneToMany(() => GoodsEntity, (entity) => entity.bought_by)
+  goods: GoodsEntity[];
 }
